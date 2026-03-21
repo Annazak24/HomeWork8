@@ -45,6 +45,5 @@ services:
       - "http://selenoid:4444"
     depends_on:
       selenoid:
-        privileged: true
         condition: service_healthy
     restart: unless-stopped
