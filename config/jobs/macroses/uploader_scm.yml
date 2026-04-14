@@ -3,7 +3,7 @@
     name: uploader_scm
     scm:
       - git:
-          url: https://github.com/saint88/uploader
+          url: https://github.com/Annazak24/HomeWork8
           credentials-id: jenkins
           branches:
             - FETCH_HEAD
