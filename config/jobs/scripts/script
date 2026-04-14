@@ -1,0 +1,41 @@
+node('python-jenkins-slave') {
+    timestamps {
+        ansiColor('xterm') {
+            tmp_jenkins_config = '/dev/shm/jenkins-job-builder.ini'
+            wrap([$class: 'BuildUser']) {
+                summary = """
+                    |<b>Owner:</b> ${env.BUILD_USER}
+                    |<b>Branch:</b> ${REFSPEC}""".stripMargin()
+                currentBuild.description = summary.replaceAll("\n", "<br>")
+            }
+
+            stage('Checkout') {
+                checkout scm
+            }
+
+            stage('Prepare config') {
+                withCredentials([usernamePassword(credentialsId: 'jenkins-job-builder',
+                        passwordVariable: 'jpass', usernameVariable: 'juser')]) {
+                    writeFile file: tmp_jenkins_config,
+                    text: """
+[job_builder]
+recursive=True
+keep_descriptions=True
+
+[jenkins]
+url=http://overcloud12.private.infra.devmail.ru/
+user=${juser}
+password=${jpass}
+"""
+                }
+            }
+         stage('Deploy jobs'){
+             sh """
+             export PATH="$PATH:/usr/venv/bin"
+             jenkins-jobs --conf ${tmp_jenkins_config} update ./jenkins/config/jobs/
+             rm ${tmp_jenkins_config}
+             """
+           }
+        }
+    }
+}

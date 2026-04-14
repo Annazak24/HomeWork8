@@ -1,0 +1,10 @@
+---
+- scm:
+    name: git-jenkins-jobs
+    scm:
+      - git:
+          url: git@test.mail.ru/test.git
+          credentials-id: jenkins
+          branches:
+            - FETCH_HEAD
+          refspec:  ${{REFSPEC}}

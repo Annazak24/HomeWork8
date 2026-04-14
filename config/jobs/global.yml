@@ -1,0 +1,5 @@
+- defaults:
+    name: global
+    description: "Global defaults"
+    project-type: pipeline
+    concurrent: true

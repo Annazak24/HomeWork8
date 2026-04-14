@@ -1,49 +1,43 @@
 name: selenoid-stack
 
 services:
-  selenoid:
-    image: aerokube/selenoid:latest-release
-    container_name: selenoid
-    ports:
-      - "4444:4444"
-    volumes:
-      - "./selenoid:/etc/selenoid"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    command:
-      - "-conf"
-      - "/etc/selenoid/browsers.json"
-      - "-video-output-dir"
-      - "/etc/selenoid/video"
-      - "-log-output-dir"
-      - "/etc/selenoid/logs"
-      - "-service-startup-timeout"
-      - "2m"
-      - "-session-attempt-timeout"
-      - "2m"
-      - "-timeout"
-      - "3m"
-      - "-retry-count"
-      - "2"
-      - "-limit"
-      - "4"
+  jenkins:
+    image: jenkins/jenkins:jdk21
+    restart: always
+    hostname: jenkins
+    user: root
     environment:
-      - TZ=Asia/Yerevan
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:4444/status >/dev/null 2>&1 || exit 1"]
-      interval: 5s
-      timeout: 3s
-      retries: 60
-    restart: unless-stopped
-
-  selenoid-ui:
-    image: aerokube/selenoid-ui:latest-release
-    container_name: selenoid-ui
+      - JAVA_OPTS=-Dhudson.model.DownloadService.noSignatureCheck=true
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - JENKINS_OPTS=--prefix=/my_jenkins
     ports:
-      - "8080:8080"
-    command:
-      - "--selenoid-uri"
-      - "http://selenoid:4444"
-    depends_on:
-      selenoid:
-        condition: service_healthy
-    restart: unless-stopped
+      - "8081:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  registry:
+    image: registry:3.0.0
+    restart: always
+    container_name: registry
+    hostname: registry
+    volumes:
+      - ./registry:/var/lib/registry
+    ports:
+      - 5005:5005
+    environment:
+      - REGISTRY_HTTP_ADDR=0.0.0.0:5005
+
+  nginx:
+    image: nginx
+    privileged: true
+    restart: always
+    container_name: nginx
+    hostname: nginx
+    depends_on: [ "jenkins", "registry" ]
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 80:80

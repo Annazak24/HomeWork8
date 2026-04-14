@@ -1,0 +1,15 @@
+FROM centos:centos8.4.2105
+
+RUN mkdir -p /root/jenkins-deployer/config/jobs/jenkins-job-builder
+
+WORKDIR /root/jenkins-deployer/config/jobs/jenkins-job-builder
+COPY . /root/jenkins-deployer/config/jobs/jenkins-job-builder
+
+RUN yum update -y \
+    && yum install python3 -y \
+    && yum install -y python3-pip
+
+RUN pip3 install jinja2
+RUN pip3 install 'jenkins-job-builder>=3.11.0'
+
+ENTRYPOINT ["./entrypoint.sh"]
