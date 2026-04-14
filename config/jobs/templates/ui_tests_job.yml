@@ -21,4 +21,4 @@
     pipeline-scm:
       scm:
         - ui_tests_scm
-      script-path: jenkins/ui_tests.groovy
+      script-path: jobs/ui_tests.groovy

@@ -10,4 +10,4 @@
     pipeline-scm:
       scm:
         - uploader_scm
-      script-path: jenkins/uploader_pipeline.groovy
+      script-path: jobs/uploader_pipeline.groovy
