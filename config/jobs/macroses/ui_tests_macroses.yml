@@ -3,8 +3,7 @@
     name: ui_tests_scm
     scm:
       - git:
-          url: https://github.com/saint88/ui_tests
-          credentials-id: jenkins
+          url: https://github.com/Annazak24/HomeWork8
           branches:
             - FETCH_HEAD
           refspec:  ${{REFSPEC}}
