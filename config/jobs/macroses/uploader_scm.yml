@@ -3,7 +3,7 @@
     name: uploader_scm
     scm:
       - git:
-          url: https://github.ru/saint88/uploader
+          url: https://github.com/saint88/uploader
           credentials-id: jenkins
           branches:
             - FETCH_HEAD

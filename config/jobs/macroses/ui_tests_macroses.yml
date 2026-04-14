@@ -3,7 +3,7 @@
     name: ui_tests_scm
     scm:
       - git:
-          url: https://github.ru/saint88/ui_tests
+          url: https://github.com/saint88/ui_tests
           credentials-id: jenkins
           branches:
             - FETCH_HEAD
