@@ -9,7 +9,7 @@
       - string:
           name: REFSPEC
           description: ""
-          default: master
+          default: main
 
       - text:
           name: CONFIG
