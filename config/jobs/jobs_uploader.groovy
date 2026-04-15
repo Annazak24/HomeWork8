@@ -1,12 +1,7 @@
-import groovy.transform.Field
-
-@Field
-def JOBS_DIR = "${WORKSPACE}/jobs"
-
-@Field
-def CONFIG_FILE = "${WORKSPACE}/uploader.ini"
-
 node('built-in') {
+
+    def JOBS_DIR = "${env.WORKSPACE}/config/jobs"
+    def CONFIG_FILE = "${env.WORKSPACE}/uploader.ini"
 
     stage('Checkout') {
         checkout scm
@@ -34,13 +29,13 @@ EOF
     }
 
     stage('Debug') {
-        sh '''
+        sh """
             which jenkins-jobs || true
             jenkins-jobs --version || true
             ls -la
-            ls -la jobs || true
-            cat '"${CONFIG_FILE}"'
-        '''
+            ls -la ${JOBS_DIR} || true
+            cat ${CONFIG_FILE}
+        """
     }
 
     stage('Upload jobs') {
