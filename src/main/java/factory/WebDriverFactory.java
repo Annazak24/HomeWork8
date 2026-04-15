@@ -31,7 +31,7 @@ public class WebDriverFactory {
 
 
                 return new RemoteWebDriver(
-                        new URL("http://localhost:4444/wd/hub"),
+                      new URL("http://selenoid:4444/wd/hub"),
                         options
                 );
             }
