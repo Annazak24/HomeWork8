@@ -45,3 +45,18 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "80:80"
+
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    container_name: selenoid
+    restart: always
+    ports:
+      - "4444:4444"
+    volumes:
+      - ./selenoid:/etc/selenoid:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - "-conf"
+      - "/etc/selenoid/browsers.json"
+      - "-container-network"
+      - "selenoid-stack_default"
