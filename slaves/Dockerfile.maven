@@ -1,9 +1,9 @@
-FROM jenkins/agent:jdk17
+FROM jenkins/jenkins:lts-jdk17
 
 USER root
 
-RUN mkdir -p /root/jenkins
-WORKDIR /root/jenkins
+RUN apt-get update && \
+    apt-get install -y maven && \
+    apt-get clean
 
-RUN apt update -y
-RUN apt install -y maven
+USER jenkins

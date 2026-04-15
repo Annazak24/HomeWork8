@@ -2,7 +2,9 @@ name: selenoid-stack
 
 services:
   jenkins:
-    image: jenkins/jenkins:jdk21
+    build:
+      context: .
+      dockerfile: Dockerfile.maven
     restart: always
     hostname: jenkins
     user: root
@@ -25,7 +27,7 @@ services:
     volumes:
       - ./registry:/var/lib/registry
     ports:
-      - 5005:5005
+      - "5005:5005"
     environment:
       - REGISTRY_HTTP_ADDR=0.0.0.0:5005
 
@@ -35,9 +37,11 @@ services:
     restart: always
     container_name: nginx
     hostname: nginx
-    depends_on: [ "jenkins", "registry" ]
+    depends_on:
+      - jenkins
+      - registry
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - 80:80
+      - "80:80"
