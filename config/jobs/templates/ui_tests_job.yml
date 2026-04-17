@@ -13,6 +13,7 @@
 
       - text:
           name: CONFIG
+
           default: |
             browser: chrome
             base_url: https://mail.ru
