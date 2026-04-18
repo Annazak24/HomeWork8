@@ -13,8 +13,12 @@ node('maven') {
                 passwordVariable: 'pass',
                 usernameVariable: 'user'
         )]) {
-            sh '''
-                cat > "$CONFIG_FILE" <<EOF
+            withEnv([
+                    "CONFIG_FILE=${CONFIG_FILE}",
+                    "JOBS_DIR=${JOBS_DIR}"
+            ]) {
+                sh '''
+                    cat > "$CONFIG_FILE" <<EOF
 [jenkins]
 url=http://jenkins:8080/my_jenkins/
 user=$user
@@ -24,23 +28,34 @@ password=$pass
 recursive=True
 keep_descriptions=False
 EOF
-            '''
+                '''
+            }
         }
     }
 
     stage('Debug') {
-        sh '''
-            which jenkins-jobs || true
-            jenkins-jobs --version || true
-            ls -la
-            ls -la "$JOBS_DIR" || true
-            cat "$CONFIG_FILE"
-        '''
+        withEnv([
+                "CONFIG_FILE=${CONFIG_FILE}",
+                "JOBS_DIR=${JOBS_DIR}"
+        ]) {
+            sh '''
+                which jenkins-jobs || true
+                jenkins-jobs --version || true
+                ls -la
+                ls -la "$JOBS_DIR" || true
+                cat "$CONFIG_FILE"
+            '''
+        }
     }
 
     stage('Upload jobs') {
-        sh '''
-            jenkins-jobs --conf "$CONFIG_FILE" --flush-cache update "$JOBS_DIR"
-        '''
+        withEnv([
+                "CONFIG_FILE=${CONFIG_FILE}",
+                "JOBS_DIR=${JOBS_DIR}"
+        ]) {
+            sh '''
+                jenkins-jobs --conf "$CONFIG_FILE" --flush-cache update "$JOBS_DIR"
+            '''
+        }
     }
 }
