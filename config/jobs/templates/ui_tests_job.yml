@@ -12,11 +12,6 @@
             - chrome
             - firefox
 
-      - string:
-          name: REFSPEC
-          default: "HomeWork2"
-          description: "Git branch to run tests from"
-
       - text:
           name: CONFIG
           default: |
@@ -31,4 +26,4 @@
             url: https://github.com/Annazak24/HomeWork2.git
             branches:
               - HomeWork2
-      script-path: config/jobs/ui_tests.groovy
+      script-path: Jenkinsfile
