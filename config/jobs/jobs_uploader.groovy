@@ -33,29 +33,22 @@ EOF
         }
     }
 
-    stage('Debug') {
+    stage('Run JJB in Docker') {
         withEnv([
                 "CONFIG_FILE=${CONFIG_FILE}",
                 "JOBS_DIR=${JOBS_DIR}"
         ]) {
-            sh '''
-                which jenkins-jobs || true
-                jenkins-jobs --version || true
-                ls -la
-                ls -la "$JOBS_DIR" || true
-                cat "$CONFIG_FILE"
-            '''
-        }
-    }
-
-    stage('Upload jobs') {
-        withEnv([
-                "CONFIG_FILE=${CONFIG_FILE}",
-                "JOBS_DIR=${JOBS_DIR}"
-        ]) {
-            sh '''
-                jenkins-jobs --conf "$CONFIG_FILE" --flush-cache update "$JOBS_DIR"
-            '''
+            script {
+                docker.image('jenkins-jjb:latest').inside {
+                    sh '''
+                        jenkins-jobs --version
+                        ls -la
+                        ls -la "$JOBS_DIR"
+                        cat "$CONFIG_FILE"
+                        jenkins-jobs --conf "$CONFIG_FILE" --flush-cache update "$JOBS_DIR"
+                    '''
+                }
+            }
         }
     }
 }
