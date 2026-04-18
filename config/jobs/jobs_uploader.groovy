@@ -1,7 +1,7 @@
 node('maven') {
 
     def JOBS_DIR = "${env.WORKSPACE}/config/jobs"
-    def CONFIG_FILE = "${env.WORKSPACE}/uploader.ini"
+    def CONFIG_FILE = "${env.WORKSPACE}/uploader_config.ini"
 
     stage('Checkout') {
         checkout scm
