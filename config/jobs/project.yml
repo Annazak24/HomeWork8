@@ -1,5 +1,9 @@
 - project:
     name: test_name
+
     jobs:
       - jobs_uploader
       - ui_tests
+      - api_tests
+
+    REFSPEC: main
