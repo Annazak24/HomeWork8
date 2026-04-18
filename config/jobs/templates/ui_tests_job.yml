@@ -1,4 +1,4 @@
-- job:
+- job-template:
     name: ui_tests
     project-type: pipeline
     description: "UI tests runner"

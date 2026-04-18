@@ -1,4 +1,4 @@
-- job:
+- job-template:
     name: api_tests
     tags:
       - api
