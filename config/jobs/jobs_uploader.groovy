@@ -33,7 +33,6 @@ EOF
             docker.image('jenkins-jjb:latest').inside('--network selenoid1') {
                 sh """
                     jenkins-jobs --version
-                    ls -la
                     ls -la "${JOBS_DIR}"
                     cat "${CONFIG_FILE}"
                     jenkins-jobs --conf "${CONFIG_FILE}" --flush-cache update "${JOBS_DIR}"
