@@ -14,7 +14,7 @@
 
       - string:
           name: REFSPEC
-          default: "main"
+          default: "HomeWork2"
           description: "Git branch to run tests from"
 
       - text:
@@ -30,5 +30,5 @@
         - git:
             url: https://github.com/Annazak24/HomeWork2.git
             branches:
-              - ${REFSPEC}
+              - HomeWork2
       script-path: config/jobs/ui_tests.groovy
