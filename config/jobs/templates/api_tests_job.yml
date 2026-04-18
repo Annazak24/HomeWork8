@@ -1,0 +1,28 @@
+- job:
+    name: api_tests
+    tags:
+      - api
+      - all
+    project-type: pipeline
+    description: "API tests with Maven and Allure"
+
+    parameters:
+      - string:
+          name: REFSPEC
+          default: "main"
+          description: "Git branch to run tests from"
+
+      - text:
+          name: CONFIG
+          default: |
+            base_url: https://petstore.swagger.io
+            environment: test
+          description: "API test configuration"
+
+    pipeline-scm:
+      scm:
+        - git:
+            url: https://github.com/Annazak24/HomeWork6
+            branches:
+              - ${REFSPEC}
+      script-path: config/jobs/api_tests.groovy

@@ -1,25 +1,34 @@
-- job-template:
-    name: 'ui_tests'
-    description: "<h3 style='color: red;'>ui tests runner</h3>"
+- job:
+    name: ui_tests
     project-type: pipeline
+    description: "UI tests runner"
     concurrent: true
-    node: maven
 
     parameters:
+      - choice:
+          name: BROWSER
+          description: "Choose browser for tests"
+          choices:
+            - chrome
+            - firefox
+
       - string:
           name: REFSPEC
-          description: ""
-          default: main
+          default: "main"
+          description: "Git branch to run tests from"
 
       - text:
           name: CONFIG
-
           default: |
             browser: chrome
-            base_url: https://mail.ru
-            remote: false
+            base_url: https://example.com
+            remote: true
+          description: "Test configuration"
 
     pipeline-scm:
       scm:
-        - ui_tests_scm
-      script-path: jobs/ui_tests.groovy
+        - git:
+            url: https://github.com/Annazak24/HomeWork2.git
+            branches:
+              - ${REFSPEC}
+      script-path: config/jobs/ui_tests.groovy
