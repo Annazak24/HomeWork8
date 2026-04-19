@@ -7,6 +7,8 @@
     job-name:
       - jobs_uploader
       - ui_tests
+      - api_tests
+      - mobile_tests
     columns:
       - status
       - job
