@@ -10,7 +10,7 @@
     parameters:
       - string:
           name: REFSPEC
-          default: "main"
+          default: main
           description: "Git branch to run tests from"
 
       - text:
@@ -28,5 +28,5 @@
         - git:
             url: https://github.com/Annazak24/HomeWork7.git
             branches:
-              - ${REFSPEC}
+              - "*/main"
       script-path: Jenkinsfile
