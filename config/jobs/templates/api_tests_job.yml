@@ -9,7 +9,7 @@
     parameters:
       - string:
           name: REFSPEC
-          default: "main"
+          default: main
           description: "Git branch to run tests from"
 
       - text:
