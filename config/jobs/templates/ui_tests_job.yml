@@ -25,5 +25,5 @@
         - git:
             url: https://github.com/Annazak24/HomeWork6.git
             branches:
-              - HomeWork2
+              - main
       script-path: Jenkinsfile
