@@ -3,7 +3,7 @@
     name: git-jenkins-jobs
     scm:
       - git:
-          url: git@test.mail.ru/test.git
+          url: https://github.com/Annazak24/HomeWork8
           credentials-id: jenkins
           branches:
             - FETCH_HEAD

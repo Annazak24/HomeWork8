@@ -1,0 +1,32 @@
+- job-template:
+    name: mobile_tests
+    tags:
+      - mobile
+      - all
+    project-type: pipeline
+    description: "Mobile tests with Maven and Allure"
+    concurrent: true
+
+    parameters:
+      - string:
+          name: REFSPEC
+          default: "main"
+          description: "Git branch to run tests from"
+
+      - text:
+          name: CONFIG
+          default: |
+            platformName: Android
+            deviceName: emulator-5554
+            appiumUrl: http://127.0.0.1:4723
+            app: http://wiremock:8080/wishlist.apk
+            environment: test
+          description: "Mobile test configuration"
+
+    pipeline-scm:
+      scm:
+        - git:
+            url: https://github.com/Annazak24/HomeWork7.git
+            branches:
+              - ${REFSPEC}
+      script-path: config/jobs/mobile_tests.groovy
