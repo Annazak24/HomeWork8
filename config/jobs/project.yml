@@ -5,6 +5,6 @@
       - jobs_uploader
       - ui_tests
       - api_tests
-      - mobile-tests
+      - mobile_tests
 
     REFSPEC: main
