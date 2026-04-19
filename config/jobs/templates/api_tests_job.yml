@@ -25,4 +25,4 @@
             url: https://github.com/Annazak24/HomeWork2
             branches:
               - "*/main"
-      script-path: config/jobs/api_tests.groovy
+      script-path: Jenkinsfile
