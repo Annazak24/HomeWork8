@@ -3,7 +3,12 @@ pipeline {
         docker {
             image 'mcr.microsoft.com/playwright/java:v1.58.0-noble'
             args '--ipc=host -v /var/jenkins_home/.m2:/root/.m2'
+            reuseNode true
         }
+    }
+
+    options {
+        skipDefaultCheckout(true)
     }
 
     tools {
@@ -13,7 +18,7 @@ pipeline {
     parameters {
         text(
                 name: 'CONFIG',
-                defaultValue: '''browser: chromium
+                defaultValue: '''browser: chrome
 base_url: https://example.com
 remote: false''',
                 description: 'UI test config'
@@ -30,10 +35,22 @@ remote: false''',
         stage('Prepare config') {
             steps {
                 script {
-                    def cfg = readYaml text: params.CONFIG
-                    env.BROWSER = cfg.browser?.toString()?.trim()
-                    env.BASE_URL = cfg.base_url?.toString()?.trim()
-                    env.REMOTE = cfg.remote?.toString()?.trim()
+                    writeFile file: 'config.yaml', text: params.CONFIG
+
+                    env.BROWSER = sh(
+                            script: "grep '^browser:' config.yaml | cut -d':' -f2- | xargs",
+                            returnStdout: true
+                    ).trim()
+
+                    env.BASE_URL = sh(
+                            script: "grep '^base_url:' config.yaml | cut -d':' -f2- | xargs",
+                            returnStdout: true
+                    ).trim()
+
+                    env.REMOTE = sh(
+                            script: "grep '^remote:' config.yaml | cut -d':' -f2- | xargs",
+                            returnStdout: true
+                    ).trim()
 
                     echo "Browser: ${env.BROWSER}"
                     echo "Base URL: ${env.BASE_URL}"
