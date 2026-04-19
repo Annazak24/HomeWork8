@@ -23,7 +23,7 @@
     pipeline-scm:
       scm:
         - git:
-            url: https://github.com/Annazak24/HomeWork2.git
+            url: https://github.com/Annazak24/HomeWork6.git
             branches:
               - HomeWork2
       script-path: Jenkinsfile
