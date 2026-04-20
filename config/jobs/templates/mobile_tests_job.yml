@@ -18,7 +18,7 @@
           default: |
             platformName: Android
             deviceName: emulator-5554
-            appiumUrl: http://127.0.0.1:4723
+            appiumUrl: http://android:4723
             app: http://wiremock:8080/wishlist.apk
             environment: test
           description: "Mobile test configuration"
