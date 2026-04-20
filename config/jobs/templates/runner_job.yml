@@ -1,0 +1,19 @@
+- job:
+    name: runner_job
+    project-type: pipeline
+    description: "Orchestrator to run API, UI, Mobile or all jobs"
+    parameters:
+      - choice:
+          name: "TEST_TYPE"
+          description: "Select which test suite to run"
+          choices:
+            - all
+            - api
+            - ui
+            - mobile
+    pipeline-scm:
+      scm:
+        - git:
+            url: https://github.com/Annazak24/HomeWork8.git
+            branch: main
+      script-path: config/jobs/runner_job.groovy

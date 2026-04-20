@@ -9,6 +9,7 @@
       - ui_tests
       - api_tests
       - mobile_tests
+      - runner_job
     columns:
       - status
       - job
